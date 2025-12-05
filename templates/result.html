@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction Result</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --aggie-maroon: #500000;
+            --aggie-maroon-light: #7a2b2b;
+            --aggie-gray: #5c5d5e;
+            --background: #f4f4f4;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle at top, #fdf8f5, var(--background));
+            color: var(--aggie-gray);
+        }
+
+        .page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            max-width: 640px;
+            width: 100%;
+            border-radius: 18px;
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.16);
+            border: 2px solid rgba(80, 0, 0, 0.12);
+            overflow: hidden;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--aggie-maroon), var(--aggie-maroon-light));
+            color: #ffffff;
+            padding: 1.75rem 2rem;
+        }
+
+        .card-header h1 {
+            margin: 0;
+            font-size: 1.7rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .card-header p {
+            margin: 0.5rem 0 0;
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .card-body {
+            padding: 1.75rem 2rem 2rem 2rem;
+        }
+
+        .score-label {
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            font-size: 0.8rem;
+            color: var(--aggie-gray);
+            margin-bottom: 0.35rem;
+        }
+
+        .prediction-value {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--aggie-maroon);
+            margin: 0;
+        }
+
+        .score-subtitle {
+            margin-top: 0.3rem;
+            font-size: 0.95rem;
+            color: #777;
+        }
+
+        .divider {
+            margin: 1.5rem 0;
+            height: 1px;
+            background: linear-gradient(to right, rgba(80,0,0,0.15), transparent);
+        }
+
+        .hint-text {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .actions {
+            margin-top: 1.75rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: flex-end;
+        }
+
+        .btn-primary, .btn-secondary {
+            border-radius: 999px;
+            padding: 0.6rem 1.4rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--aggie-maroon), var(--aggie-maroon-light));
+            color: #ffffff;
+            box-shadow: 0 10px 20px rgba(80, 0, 0, 0.35);
+        }
+
+        .btn-primary:hover {
+            filter: brightness(1.05);
+        }
+
+        .btn-secondary {
+            background: #f6f2f1;
+            color: var(--aggie-maroon);
+            border: 1px solid rgba(80,0,0,0.22);
+        }
+
+        @media (max-width: 640px) {
+            .card-header, .card-body {
+                padding: 1.4rem 1.4rem 1.6rem;
+            }
+            .prediction-value {
+                font-size: 2.4rem;
+            }
+            .actions {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+    <div class="card">
+        <div class="card-header">
+            <h1>Prediction Results</h1>
+            <p>Based on your responses, here is your estimated addiction score.</p>
+        </div>
+        <div class="card-body">
+            <div class="score-label">Decision Tree Predicted Score</div>
+            <p class="prediction-value">{{ prediction1 }}</p>
+
+            <div class="divider"></div>
+
+            <div class="score-label">Random Forest Predicted Score</div>
+            <p class="prediction-value">{{ prediction2 }}</p>
+
+            <div class="divider"></div>
+
+            <div class="score-label">Random Forest Regressor Predicted Score</div>
+            <p class="prediction-value">{{ prediction3 }}</p>
+
+            <div class="divider"></div>
+
+            <div class="score-label">Grok Predicted Score and Remediation</div>
+            <p class="hint-text">
+                {{ message | safe }}
+            </p>
+
+            <div class="actions">
+                <a href="{{ url_for('index') }}" class="btn-primary">
+                    Run Another Prediction
+                    <span>⟶</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

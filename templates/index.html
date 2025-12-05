@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Aggie Social Media Impact Predictor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        :root {
+            --aggie-maroon: #500000;
+            --aggie-maroon-light: #7a2b2b;
+            --aggie-gray: #5c5d5e;
+            --background: #f4f4f4;
+            --card-bg: #ffffff;
+            --accent: #c8c0b6;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle at top, #fdf8f5, var(--background));
+            color: var(--aggie-gray);
+        }
+
+        .page-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            max-width: 720px;
+            width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+            border: 2px solid rgba(80, 0, 0, 0.12);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--aggie-maroon), var(--aggie-maroon-light));
+            color: #ffffff;
+            padding: 1.75rem 2rem;
+        }
+
+        .card-header h1 {
+            margin: 0;
+            font-size: 1.6rem;
+            letter-spacing: 0.04em;
+        }
+
+        .card-header p {
+            margin: 0.4rem 0 0;
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .card-body {
+            padding: 1.75rem 2rem 2rem 2rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 0.3rem 0.7rem;
+            border-radius: 999px;
+            background: rgba(80, 0, 0, 0.06);
+            color: var(--aggie-maroon);
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        
+
+        form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1rem 1.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--aggie-maroon);
+        }
+
+        .hint {
+            font-size: 0.75rem;
+            color: #777;
+        }
+
+        input[type="number"],
+        input[type="text"],
+        select {
+            padding: 0.55rem 0.65rem;
+            border-radius: 8px;
+            border: 1px solid #d1d1d1;
+            font-size: 0.9rem;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+            background-color: #fafafa;
+        }
+
+        input[type="number"]:focus,
+        input[type="text"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--aggie-maroon);
+            box-shadow: 0 0 0 2px rgba(80, 0, 0, 0.12);
+            background-color: #ffffff;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            padding-top: 0.25rem;
+        }
+
+        .radio-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: #faf5f4;
+            border-radius: 999px;
+            padding: 0.3rem 0.7rem;
+            border: 1px solid transparent;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background 0.15s ease, border-color 0.15s ease;
+        }
+
+        .radio-pill input {
+            margin: 0;
+        }
+
+        .radio-pill:hover {
+            border-color: rgba(80, 0, 0, 0.28);
+        }
+
+        .card-footer {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .submit-btn {
+            border: none;
+            border-radius: 999px;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.98rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, var(--aggie-maroon), var(--aggie-maroon-light));
+            color: #ffffff;
+            cursor: pointer;
+            align-self: flex-end;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 10px 20px rgba(80, 0, 0, 0.35);
+            transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+        }
+
+        .submit-btn span {
+            font-size: 1.05rem;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 14px 26px rgba(80, 0, 0, 0.40);
+            filter: brightness(1.05);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 8px 16px rgba(80, 0, 0, 0.30);
+        }
+
+        .submitted-banner {
+            font-size: 0.8rem;
+            color: var(--aggie-gray);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .submitted-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background-color: #2e7d32;
+        }
+
+        @media (max-width: 640px) {
+            .card-header, .card-body {
+                padding: 1.25rem 1.25rem 1.5rem;
+            }
+
+            .card-header h1 {
+                font-size: 1.4rem;
+            }
+
+            .submit-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="page-wrapper">
+    <div class="card">
+        <div class="card-header">
+            <h1>Social Media Addiction Predictor</h1>
+            <p>Enter a few details about your habits so our model can analyze them.</p>
+        </div>
+        <div class="card-body">
+            <!-- <div class="badge">Prototype &bull; Databricks + ML</div> -->
+
+            {% if submitted %}
+                <div class="submitted-banner">
+                    <div class="submitted-dot"></div>
+                    Your responses were submitted successfully. Model & LLM integration coming next!
+                </div>
+            {% endif %}
+
+
+            <form method="POST" action="{{ url_for('predict') }}">
+                <!-- Age -->
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input id="age" name="age" type="number" min="0" step="1" required>
+                    <div class="hint">Enter your age in years.</div>
+                </div>
+
+                <!-- Gender -->
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select id="gender" name="gender" required>
+                        <option value="" disabled selected>Select gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+
+                <!-- Academic Level -->
+                <div class="form-group">
+                    <label for="academic_level">Academic Level</label>
+                    <select id="academic_level" name="academic_level" required>
+                        <option value="" disabled selected>Select level</option>
+                        <option value="High School">High School</option>
+                        <option value="Undergrad">Undergrad</option>
+                        <option value="Graduate">Graduate</option>
+                    </select>
+                </div>
+
+                <!-- Average Daily Usage -->
+                <div class="form-group">
+                    <label for="avg_daily_usage">Average Daily Usage (hours)</label>
+                    <input id="avg_daily_usage" name="avg_daily_usage" type="number" step="0.1" min="0" required>
+                    <div class="hint">Estimated total hours per day across social platforms.</div>
+                </div>
+
+                <!-- Most Used Platform -->
+                <div class="form-group">
+                    <label for="most_used_platform">Most Used Platform</label>
+                    <select id="most_used_platform" name="most_used_platform" required>
+                        <option value="" disabled selected>Select a platform</option>
+                        <option value="Instagram">Instagram</option>
+                        <option value="Twitter">Twitter</option>
+                        <option value="TikTok">TikTok</option>
+                        <option value="YouTube">YouTube</option>
+                        <option value="Facebook">Facebook</option>
+                        <option value="LinkedIn">LinkedIn</option>
+                        <option value="Snapchat">Snapchat</option>
+                        <option value="LINE">LINE</option>
+                        <option value="KakaoTalk">KakaoTalk</option>
+                        <option value="VKontakte">VKontakte</option>
+                        <option value="WhatsApp">WhatsApp</option>
+                        <option value="WeChat">WeChat</option>
+                    </select>
+                </div>
+
+                <!-- Affects Academic Performance -->
+                <div class="form-group">
+                    <label>Affects Academic Performance?</label>
+                    <div class="radio-group">
+                        <label class="radio-pill">
+                            <input type="radio" name="affects_academic_performance" value="True" required>
+                            <span>Yes</span>
+                        </label>
+                        <label class="radio-pill">
+                            <input type="radio" name="affects_academic_performance" value="False">
+                            <span>No</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Sleep Hours -->
+                <div class="form-group">
+                    <label for="sleep_hours">Sleep Hours Per Night</label>
+                    <input id="sleep_hours" name="sleep_hours" type="number" step="0.1" min="0" max="24" required>
+                    <div class="hint">Average hours of sleep per night.</div>
+                </div>
+
+                <!-- Relationship Status -->
+                <div class="form-group">
+                    <label for="relationship_status">Relationship Status</label>
+                    <select id="relationship_status" name="relationship_status" required>
+                        <option value="" disabled selected>Select status</option>
+                        <option value="Single">Single</option>
+                        <option value="In Relationship">In Relationship</option>
+                        <option value="Complicated">Complicated</option>
+                    </select>
+                </div>
+
+                <!-- Conflicts over Social Media -->
+                <div class="form-group">
+                    <label for="conflicts_over_social_media">Conflicts Over Social Media</label>
+                    <input id="conflicts_over_social_media" name="conflicts_over_social_media" type="number" min="0" step="1" required>
+                    <div class="hint">How many arguments or conflicts arise from social media usage.</div>
+                </div>
+
+                <div class="card-footer">
+                    <button type="submit" class="submit-btn">
+                        Submit Responses
+                        <span>⟶</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
